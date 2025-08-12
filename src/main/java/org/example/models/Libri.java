@@ -7,12 +7,17 @@ public abstract class Libri {
     private String titulli;
     private int numriFaqeve;
     private Gjinia_Librit gjiniaLibrit;
+    private Tipi tipi;
+    private String formati;
 
-    public Libri(String id, String titulli, int numriFaqeve ,Gjinia_Librit gjiniaLibrit) {
+
+    public Libri(String id, String titulli, int numriFaqeve ,Gjinia_Librit gjiniaLibrit, Tipi tipi,String formati) {
         this.id = id;
         this.titulli = titulli;
         this.numriFaqeve = numriFaqeve;
         this.gjiniaLibrit=gjiniaLibrit;
+        this.tipi=tipi;
+        this.formati=formati;
 
     }
 
@@ -49,5 +54,19 @@ public abstract class Libri {
         this.gjiniaLibrit = gjiniaLibrit;
     }
 
+    public Tipi getTipi() {
+        return tipi;
+    }
 
+    public void setTipi(Tipi tipi) {
+        this.tipi = tipi;
+    }
+
+    public String getFormati() {
+        return formati;
+    }
+
+    public void setFormati(String formati) {
+        this.formati = formati;
+    }
 }

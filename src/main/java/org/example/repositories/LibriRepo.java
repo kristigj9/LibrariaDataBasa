@@ -1,12 +1,13 @@
 package org.example.repositories;
 
-import org.example.models.Libri;
-import org.example.models.Punonjesit;
+import org.example.models.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LibriRepo {
 
@@ -15,12 +16,11 @@ public class LibriRepo {
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, libri.getId());
         stmt.setString(2, libri.getTitulli());
-        stmt.setInt(3,libri.getNumriFaqeve());
-        stmt.setString(4,libri.getGjiniaLibrit().name());
+        stmt.setInt(3, libri.getNumriFaqeve());
+        stmt.setString(4, libri.getGjiniaLibrit().name());
 
         stmt.executeUpdate();
     }
-
 
 
     public void updateKolonaRe(Connection conn, Libri libri) throws SQLException {
@@ -55,6 +55,7 @@ public class LibriRepo {
             }
         }
     }
+
     public void updateTipiPerId(Connection conn, Libri libri) throws SQLException {
         String sql = "UPDATE libri SET titulli = ?, faqe = ?, gjinia = ?, formati = ? , tipi= ? WHERE id = ?";
 
@@ -63,7 +64,7 @@ public class LibriRepo {
             stmt.setInt(2, libri.getNumriFaqeve());
             stmt.setString(3, String.valueOf(libri.getGjiniaLibrit()));
             stmt.setString(4, libri.getFormati());
-            stmt.setString(5,String.valueOf(libri.getTipi()));
+            stmt.setString(5, String.valueOf(libri.getTipi()));
             stmt.setString(6, libri.getId());
 
 
@@ -75,6 +76,7 @@ public class LibriRepo {
             }
         }
     }
+
     public void deleteLibriPerId(Connection conn, String id) throws SQLException {
         String sql = "DELETE FROM libri WHERE id = ?";
 
@@ -105,16 +107,55 @@ public class LibriRepo {
                             ", Gjinia: " + rs.getString("gjinia") +
                             ", Formati: " + rs.getString("formati") +
                             ", Tipi: " + rs.getString("tipi"));
-                }
-
-                else {
+                } else {
                     System.out.println("⚠ Libri me ID " + id + " nuk u gjet në databazë.");
                 }
             }
         }
     }
 
+
+
+    public List<Libri> readLiber(Connection connection) throws SQLException {
+        List<Libri> libratNeDatabaze = new ArrayList<>();
+
+        String sql = "SELECT * FROM libri";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet resultSet = stmt.executeQuery()) {
+
+            while (resultSet.next()) {
+                String id = resultSet.getString("id"); // ose getInt nëse id është INT
+                String titulli = resultSet.getString("titulli");
+                int numriFaqeve = resultSet.getInt("faqe");
+
+                // lexoj nga DB si String dhe e kthej në enum
+                String gjiniaStr = resultSet.getString("gjinia");
+                Gjinia_Librit gjiniaLibrit = Gjinia_Librit.valueOf(gjiniaStr.toUpperCase());
+
+                String tipiStr = resultSet.getString("tipi");
+                Tipi tipi = Tipi.valueOf(tipiStr.toUpperCase());
+
+                String formati = resultSet.getString("formati");
+
+                libratNeDatabaze.add(
+                        new Libri_Digjital(id, titulli, numriFaqeve, gjiniaLibrit, tipi, formati)
+                );
+            }
+        }
+
+        for (Libri lb : libratNeDatabaze) {
+            System.out.println(lb.getId() + " " + lb.getTitulli());
+        }
+
+        return libratNeDatabaze;
+    }
+
+
 }
+
+
+
 
 
 

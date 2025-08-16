@@ -57,6 +57,7 @@ public class Main {
             //lr.updateTipiPerId(conn,libri3);
             //lr.deleteLibriPerId(conn, libri.getId());
            // lr.readLibriPerId(conn,"LP001");
+            lr.readLiber(conn);
 
 
 
@@ -76,7 +77,7 @@ public class Main {
             Huazim h3 = new Huazim(p3,libri2,dataKthimit2,dataHuazimit2);
             Huazim h4 = new Huazim(p2,libri3,dataKthimit3,dataHuazimit3);
 
-            HuazimRepo hr = new HuazimRepo();
+            //HuazimRepo hr = new HuazimRepo();
            // hr.shtoHuazim(conn,h2);
            // hr.shtoHuazim(conn,h2);
             //hr.shtoHuazim(conn,h3);
@@ -85,7 +86,7 @@ public class Main {
            // hr.shtoHuazim(conn,h2);
           //  hr.shtoHuazim(conn,h3);
             //hr.deleteHuazimPerId(conn,"9");
-            hr.readHuazimiPerId(conn,"12");
+            //hr.readHuazimiPerId(conn,"12");
 
 
 
